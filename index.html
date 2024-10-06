@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Selling Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Car Selling Platform</h1>
+    </header>
+    <main>
+        <section id="car-form">
+            <h2 id="form-title">Add a New Car</h2>
+            <form id="add-car-form">
+                <input type="text" id="make" placeholder="Make" required>
+                <input type="text" id="model" placeholder="Model" required>
+                <input type="number" id="year" placeholder="Year" required>
+                <input type="number" id="price" placeholder="Price" required>
+                <input type="number" id="mileage" placeholder="Mileage" required>
+                <textarea id="description" placeholder="Description"></textarea>
+                <button type="submit">Add Car</button>
+            </form>
+        </section>
+        <section id="car-list">
+            <h2>Available Cars</h2>
+            <div id="search-filter">
+                <input type="text" id="search" placeholder="Search cars...">
+                <select id="sort">
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="year-desc">Newest First</option>
+                    <option value="year-asc">Oldest First</option>
+                </select>
+            </div>
+            <div id="cars-container"></div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
