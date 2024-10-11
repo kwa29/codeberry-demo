@@ -83,7 +83,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <header className={styles.header}>
-        <h1>Car Selling Platform</h1>
+        <h1 className={styles.redTitle}>Car Selling Platform</h1>
         <button 
           className={styles.addButton} 
           onClick={() => setIsFormVisible(!isFormVisible)}
