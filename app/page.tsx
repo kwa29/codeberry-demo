@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './page.module.css';
+import { mockCars } from '../mockData';
 
 interface Car {
   id: number;
@@ -14,7 +15,7 @@ interface Car {
 }
 
 export default function Home() {
-  const [cars, setCars] = useState<Car[]>([]);
+  const [cars, setCars] = useState<Car[]>(mockCars);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('price-asc');
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -28,21 +29,10 @@ export default function Home() {
     description: ''
   });
 
-  useEffect(() => {
-    const storedCars = localStorage.getItem('cars');
-    if (storedCars) {
-      setCars(JSON.parse(storedCars));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('cars', JSON.stringify(cars));
-  }, [cars]);
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const newCar: Car = {
-      id: Date.now(),
+      id: Math.max(...cars.map(car => car.id)) + 1,
       make: formData.make,
       model: formData.model,
       year: parseInt(formData.year),
