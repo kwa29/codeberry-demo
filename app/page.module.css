@@ -17,6 +17,10 @@
   color: #333;
 }
 
+.redTitle {
+  color: #FF0000;
+}
+
 .addButton {
   background-color: #4CAF50;
   color: white;
