@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import styles from './page.module.css';
 import { mockCars } from '../mockData';
+import { Car } from 'lucide-react';
 
 interface Car {
   id: number;
@@ -73,7 +74,10 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <header className={styles.header}>
-        <h1>Car Selling Platform</h1>
+        <h1 className={styles.title}>
+          <Car className={styles.icon} />
+          <span className={styles.highlight}>Auto</span>Marketplace
+        </h1>
         <button 
           className={styles.addButton} 
           onClick={() => setIsFormVisible(!isFormVisible)}
