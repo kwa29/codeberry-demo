@@ -9,8 +9,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Auto Marketplace",
-  description: "Find and sell cars with ease",
+  title: "Codeberry Auto Marketplace",
+  description: "Find and sell cars with ease on Codeberry Auto Marketplace",
 };
 
 export default function RootLayout({
