@@ -18,17 +18,21 @@ function addCar(event) {
         mileage: parseInt(document.getElementById('mileage').value),
         description: document.getElementById('description').value
     };
-    cars.push(newCar);
-    saveCars();
-    displayCars();
-    event.target.reset();
+    if (!newCar.model.toLowerCase().includes('ford')) {
+        cars.push(newCar);
+        saveCars();
+        displayCars();
+        event.target.reset();
+    } else {
+        alert("Ford cars are not allowed.");
+    }
 }
 
 // Function to display cars
 function displayCars() {
     const carsContainer = document.getElementById('cars-container');
     carsContainer.innerHTML = '';
-    cars.forEach(car => {
+    cars.filter(car => !car.model.toLowerCase().includes('ford')).forEach(car => {
         const carElement = document.createElement('div');
         carElement.classList.add('car-item');
         carElement.innerHTML = `
@@ -45,7 +49,7 @@ function displayCars() {
 
 // Function to delete a car
 function deleteCar(id) {
-    cars = cars.filter(car => car.id !== id);
+    cars = cars.filter(car => car.id !== id && !car.model.toLowerCase().includes('ford'));
     saveCars();
     displayCars();
 }
@@ -56,9 +60,10 @@ function searchAndFilterCars() {
     const sortOption = document.getElementById('sort').value;
     
     let filteredCars = cars.filter(car => 
-        car.make.toLowerCase().includes(searchTerm) ||
+        !car.model.toLowerCase().includes('ford') &&
+        (car.make.toLowerCase().includes(searchTerm) ||
         car.model.toLowerCase().includes(searchTerm) ||
-        car.description.toLowerCase().includes(searchTerm)
+        car.description.toLowerCase().includes(searchTerm))
     );
     
     filteredCars.sort((a, b) => {
@@ -114,15 +119,19 @@ function updateCar(event, id) {
         mileage: parseInt(document.getElementById('mileage').value),
         description: document.getElementById('description').value
     };
-    const index = cars.findIndex(car => car.id === id);
-    if (index !== -1) {
-        cars[index] = updatedCar;
-        saveCars();
-        displayCars();
-        event.target.reset();
-        // Reset form submission behavior
-        event.target.onsubmit = addCar;
-        document.querySelector('#add-car-form button[type="submit"]').textContent = 'Add Car';
+    if (!updatedCar.model.toLowerCase().includes('ford')) {
+        const index = cars.findIndex(car => car.id === id);
+        if (index !== -1) {
+            cars[index] = updatedCar;
+            saveCars();
+            displayCars();
+            event.target.reset();
+            // Reset form submission behavior
+            event.target.onsubmit = addCar;
+            document.querySelector('#add-car-form button[type="submit"]').textContent = 'Add Car';
+        }
+    } else {
+        alert("Ford cars are not allowed.");
     }
 }
 
