@@ -223,5 +223,185 @@ export const mockCars = [
     price: 40000,
     mileage: 19000,
     description: "Premium full-size pickup truck with upscale features."
+  },
+  {
+    id: 26,
+    make: "Audi",
+    model: "Q5",
+    year: 2023,
+    price: 55000,
+    mileage: 5000,
+    description: "Luxury compact SUV with advanced technology features."
+  },
+  {
+    id: 27,
+    make: "Toyota",
+    model: "Corolla",
+    year: 2022,
+    price: 23000,
+    mileage: 8000,
+    description: "Reliable compact car with excellent fuel efficiency."
+  },
+  {
+    id: 28,
+    make: "Ford",
+    model: "Explorer",
+    year: 2023,
+    price: 45000,
+    mileage: 3000,
+    description: "Spacious midsize SUV with three-row seating and modern amenities."
+  },
+  {
+    id: 29,
+    make: "BMW",
+    model: "3 Series",
+    year: 2022,
+    price: 48000,
+    mileage: 7000,
+    description: "Sporty luxury sedan with dynamic driving characteristics."
+  },
+  {
+    id: 30,
+    make: "Honda",
+    model: "Accord",
+    year: 2023,
+    price: 30000,
+    mileage: 4000,
+    description: "Well-rounded midsize sedan with a reputation for reliability."
+  },
+  {
+    id: 31,
+    make: "Chevrolet",
+    model: "Equinox",
+    year: 2022,
+    price: 28000,
+    mileage: 9000,
+    description: "Compact SUV offering a comfortable ride and ample cargo space."
+  },
+  {
+    id: 32,
+    make: "Mercedes-Benz",
+    model: "E-Class",
+    year: 2023,
+    price: 62000,
+    mileage: 3500,
+    description: "Sophisticated luxury sedan with cutting-edge technology."
+  },
+  {
+    id: 33,
+    make: "Subaru",
+    model: "Forester",
+    year: 2022,
+    price: 29000,
+    mileage: 11000,
+    description: "Practical compact SUV with standard all-wheel drive and good visibility."
+  },
+  {
+    id: 34,
+    make: "Volkswagen",
+    model: "Tiguan",
+    year: 2023,
+    price: 32000,
+    mileage: 5500,
+    description: "Versatile compact SUV with optional third-row seating."
+  },
+  {
+    id: 35,
+    make: "Lexus",
+    model: "ES",
+    year: 2022,
+    price: 45000,
+    mileage: 8500,
+    description: "Refined luxury sedan known for its smooth ride and quiet cabin."
+  },
+  {
+    id: 36,
+    make: "Nissan",
+    model: "Rogue",
+    year: 2023,
+    price: 29000,
+    mileage: 4500,
+    description: "Popular compact SUV with a spacious interior and good fuel economy."
+  },
+  {
+    id: 37,
+    make: "Mazda",
+    model: "Mazda3",
+    year: 2022,
+    price: 25000,
+    mileage: 7500,
+    description: "Stylish compact car with upscale features and engaging driving dynamics."
+  },
+  {
+    id: 38,
+    make: "Jeep",
+    model: "Grand Cherokee",
+    year: 2023,
+    price: 42000,
+    mileage: 3000,
+    description: "Capable midsize SUV with off-road prowess and on-road comfort."
+  },
+  {
+    id: 39,
+    make: "Hyundai",
+    model: "Tucson",
+    year: 2022,
+    price: 28000,
+    mileage: 9500,
+    description: "Well-equipped compact SUV with distinctive styling and good value."
+  },
+  {
+    id: 40,
+    make: "Chrysler",
+    model: "Pacifica",
+    year: 2023,
+    price: 38000,
+    mileage: 4000,
+    description: "Versatile minivan with innovative features and available hybrid powertrain."
+  },
+  {
+    id: 41,
+    make: "Volvo",
+    model: "S60",
+    year: 2022,
+    price: 40000,
+    mileage: 8000,
+    description: "Elegant compact luxury sedan with a focus on safety and Scandinavian design."
+  },
+  {
+    id: 42,
+    make: "Kia",
+    model: "Sportage",
+    year: 2023,
+    price: 27000,
+    mileage: 5000,
+    description: "Compact SUV offering good value, stylish design, and a comfortable interior."
+  },
+  {
+    id: 43,
+    make: "Acura",
+    model: "RDX",
+    year: 2022,
+    price: 43000,
+    mileage: 7500,
+    description: "Luxury compact SUV with sporty handling and a well-appointed interior."
+  },
+  {
+    id: 44,
+    make: "Ram",
+    model: "1500",
+    year: 2023,
+    price: 45000,
+    mileage: 3500,
+    description: "Full-size pickup truck known for its smooth ride and innovative features."
+  },
+  {
+    id: 45,
+    make: "Infiniti",
+    model: "Q50",
+    year: 2022,
+    price: 38000,
+    mileage: 9000,
+    description: "Sport luxury sedan with powerful engine options and sleek styling."
   }
-];
+].map((car, index) => ({ ...car, id: index + 1 }));
