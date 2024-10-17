@@ -18,15 +18,6 @@ export const mockCars = [
     description: "Reliable compact car with modern features."
   },
   {
-    id: 3,
-    make: "Ford",
-    model: "F-150",
-    year: 2021,
-    price: 35000,
-    mileage: 10000,
-    description: "Powerful pickup truck with towing capacity."
-  },
-  {
     id: 4,
     make: "Tesla",
     model: "Model 3",
@@ -55,173 +46,173 @@ export const mockCars = [
   },
   {
     id: 7,
-    make: "Nissan",
-    model: "Altima",
-    year: 2020,
-    price: 24000,
-    mileage: 18000,
-    description: "Reliable midsize sedan with good fuel economy."
+    make: "Toyota",
+    model: "Corolla",
+    year: 2022,
+    price: 23000,
+    mileage: 8000,
+    description: "Reliable and fuel-efficient compact sedan."
   },
   {
     id: 8,
-    make: "Chevrolet",
-    model: "Malibu",
-    year: 2022,
-    price: 27000,
-    mileage: 8000,
-    description: "Comfortable American sedan with modern features."
-  },
-  {
-    id: 9,
-    make: "Audi",
-    model: "A4",
+    make: "Mercedes-Benz",
+    model: "C-Class",
     year: 2021,
     price: 42000,
     mileage: 15000,
-    description: "Luxury compact sedan with cutting-edge technology."
+    description: "Elegant luxury sedan with advanced technology."
   },
   {
-    id: 10,
-    make: "Toyota",
-    model: "RAV4",
+    id: 9,
+    make: "Honda",
+    model: "CR-V",
     year: 2022,
     price: 32000,
     mileage: 10000,
-    description: "Popular compact SUV with hybrid options."
+    description: "Practical and spacious compact SUV."
+  },
+  {
+    id: 10,
+    make: "Chevrolet",
+    model: "Malibu",
+    year: 2020,
+    price: 26000,
+    mileage: 18000,
+    description: "Comfortable midsize sedan with good fuel economy."
   },
   {
     id: 11,
-    make: "Ford",
-    model: "Mustang",
+    make: "Audi",
+    model: "A4",
     year: 2021,
-    price: 38000,
-    mileage: 12000,
-    description: "Iconic American muscle car with powerful engine options."
+    price: 39000,
+    mileage: 14000,
+    description: "Premium compact sedan with cutting-edge features."
   },
   {
     id: 12,
-    make: "Honda",
-    model: "CR-V",
-    year: 2020,
-    price: 29000,
-    mileage: 22000,
-    description: "Versatile and spacious compact SUV for families."
+    make: "Nissan",
+    model: "Altima",
+    year: 2022,
+    price: 27000,
+    mileage: 9000,
+    description: "Stylish midsize sedan with advanced safety features."
   },
   {
     id: 13,
-    make: "Mercedes-Benz",
-    model: "C-Class",
-    year: 2022,
-    price: 48000,
-    mileage: 8000,
-    description: "Elegant luxury sedan with advanced safety features."
+    make: "Hyundai",
+    model: "Tucson",
+    year: 2021,
+    price: 29000,
+    mileage: 11000,
+    description: "Modern compact SUV with great value."
   },
   {
     id: 14,
-    make: "Subaru",
-    model: "Outback",
-    year: 2021,
-    price: 33000,
-    mileage: 18000,
-    description: "Rugged wagon with all-wheel drive for outdoor enthusiasts."
+    make: "Dodge",
+    model: "Challenger",
+    year: 2020,
+    price: 35000,
+    mileage: 16000,
+    description: "Powerful muscle car with retro-inspired design."
   },
   {
     id: 15,
-    make: "Chevrolet",
-    model: "Silverado",
-    year: 2020,
-    price: 36000,
-    mileage: 25000,
-    description: "Full-size pickup truck with impressive towing capacity."
-  },
-  {
-    id: 16,
     make: "Mazda",
     model: "CX-5",
     year: 2022,
     price: 31000,
-    mileage: 9000,
-    description: "Stylish compact SUV with sporty handling."
+    mileage: 7000,
+    description: "Upscale compact SUV with sporty handling."
+  },
+  {
+    id: 16,
+    make: "Subaru",
+    model: "Outback",
+    year: 2021,
+    price: 33000,
+    mileage: 13000,
+    description: "Versatile wagon with off-road capability."
   },
   {
     id: 17,
-    make: "Volvo",
-    model: "XC60",
-    year: 2021,
-    price: 46000,
-    mileage: 14000,
-    description: "Luxurious midsize SUV with Scandinavian design and safety."
+    make: "Lexus",
+    model: "ES",
+    year: 2020,
+    price: 41000,
+    mileage: 19000,
+    description: "Luxurious midsize sedan with a smooth ride."
   },
   {
     id: 18,
-    make: "Hyundai",
-    model: "Sonata",
-    year: 2022,
-    price: 26000,
-    mileage: 7000,
-    description: "Well-equipped midsize sedan with striking design."
-  },
-  {
-    id: 19,
-    make: "Jeep",
-    model: "Wrangler",
-    year: 2020,
-    price: 34000,
-    mileage: 20000,
-    description: "Iconic off-road SUV with removable top and doors."
-  },
-  {
-    id: 20,
-    make: "Lexus",
-    model: "RX",
-    year: 2021,
-    price: 52000,
-    mileage: 16000,
-    description: "Premium midsize SUV with a comfortable and quiet ride."
-  },
-  {
-    id: 21,
     make: "Kia",
     model: "Telluride",
     year: 2022,
-    price: 39000,
-    mileage: 11000,
-    description: "Award-winning midsize SUV with spacious three-row seating."
+    price: 38000,
+    mileage: 6000,
+    description: "Spacious three-row SUV with premium features."
   },
   {
-    id: 22,
-    make: "Dodge",
-    model: "Challenger",
+    id: 19,
+    make: "Volvo",
+    model: "XC60",
     year: 2021,
-    price: 37000,
-    mileage: 13000,
-    description: "Retro-styled muscle car with powerful engine options."
+    price: 44000,
+    mileage: 12000,
+    description: "Safe and stylish luxury compact SUV."
   },
   {
-    id: 23,
-    make: "Porsche",
-    model: "911",
+    id: 20,
+    make: "Jeep",
+    model: "Wrangler",
     year: 2020,
-    price: 105000,
-    mileage: 8000,
-    description: "Iconic sports car with exceptional performance and handling."
+    price: 36000,
+    mileage: 17000,
+    description: "Iconic off-road vehicle with removable top."
   },
   {
-    id: 24,
+    id: 21,
     make: "Acura",
     model: "TLX",
     year: 2022,
-    price: 41000,
-    mileage: 6000,
-    description: "Sport luxury sedan with advanced technology features."
+    price: 40000,
+    mileage: 8000,
+    description: "Sport sedan with precise handling and luxury features."
+  },
+  {
+    id: 22,
+    make: "Porsche",
+    model: "Macan",
+    year: 2021,
+    price: 55000,
+    mileage: 11000,
+    description: "Compact luxury SUV with sports car-like performance."
+  },
+  {
+    id: 23,
+    make: "Chrysler",
+    model: "Pacifica",
+    year: 2022,
+    price: 37000,
+    mileage: 9000,
+    description: "Versatile minivan with hybrid powertrain option."
+  },
+  {
+    id: 24,
+    make: "Genesis",
+    model: "G70",
+    year: 2021,
+    price: 43000,
+    mileage: 10000,
+    description: "Luxury sport sedan with impressive performance."
   },
   {
     id: 25,
-    make: "GMC",
-    model: "Sierra",
-    year: 2021,
-    price: 40000,
-    mileage: 19000,
-    description: "Premium full-size pickup truck with upscale features."
+    make: "Chevrolet",
+    model: "Camaro",
+    year: 2023,
+    price: 45000,
+    mileage: 3000,
+    description: "Powerful American muscle car with modern features."
   }
 ];
