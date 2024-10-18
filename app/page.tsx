@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import styles from './page.module.css';
 import { mockCars } from '../mockData';
 import { Car } from 'lucide-react';
+import { Logo } from '../components/Logo';
 
 interface Car {
   id: number;
@@ -74,12 +75,13 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <header className={styles.header}>
+        <Logo />
         <h1 className={styles.title}>
           <Car className={styles.icon} />
-          <span className={styles.highlight}>Auto</span>Marketplace
+          <span className={styles.highlight}>Codeberry</span> Auto Marketplace
         </h1>
         <button 
-          className={styles.addButton} 
+          className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded"
           onClick={() => setIsFormVisible(!isFormVisible)}
         >
           {isFormVisible ? 'Close Form' : 'Add New Car'}
