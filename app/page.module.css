@@ -91,12 +91,14 @@
 
 .searchFilter {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-bottom: 1rem;
 }
 
 .searchInput,
-.sortSelect {
+.sortSelect,
+.priceInput {
   padding: 0.5rem;
   font-size: 1rem;
   border: 1px solid #ddd;
@@ -105,7 +107,29 @@
 
 .searchInput {
   flex-grow: 1;
-  margin-right: 1rem;
+}
+
+.priceFilter {
+  display: flex;
+  gap: 1rem;
+}
+
+.priceInput {
+  width: 150px;
+}
+
+.clearFiltersButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.clearFiltersButton:hover {
+  background-color: #d32f2f;
 }
 
 .carsContainer {
@@ -167,6 +191,44 @@
   background-color: #d32f2f;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.pagination ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination li {
+  margin: 0 0.5rem;
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.pagination .active button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #f44336;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -187,13 +249,9 @@
   }
 
   .searchInput,
-  .sortSelect {
+  .sortSelect,
+  .priceInput {
     width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  .carsContainer {
-    grid-template-columns: 1fr;
   }
 
   .title {
