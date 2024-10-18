@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
-import { mockCars } from '../mockData';
+import { CarForm } from '../components/CarForm';
+import { CarList } from '../components/CarList';
 import { Car } from 'lucide-react';
 
 interface Car {
@@ -16,60 +17,85 @@ interface Car {
 }
 
 export default function Home() {
-  const [cars, setCars] = useState<Car[]>(mockCars);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortOption, setSortOption] = useState('price-asc');
+  const [cars, setCars] = useState<Car[]>([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [editingCar, setEditingCar] = useState<Car | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState({
-    make: '',
-    model: '',
-    year: '',
-    price: '',
-    mileage: '',
-    description: ''
-  });
+  useEffect(() => {
+    fetchCars();
+  }, []);
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    const newCar: Car = {
-      id: Math.max(...cars.map(car => car.id)) + 1,
-      make: formData.make,
-      model: formData.model,
-      year: parseInt(formData.year),
-      price: parseFloat(formData.price),
-      mileage: parseInt(formData.mileage),
-      description: formData.description
-    };
-    setCars([...cars, newCar]);
-    setFormData({
-      make: '',
-      model: '',
-      year: '',
-      price: '',
-      mileage: '',
-      description: ''
-    });
-    setIsFormVisible(false);
+  const fetchCars = async () => {
+    try {
+      const response = await fetch('/api/cars');
+      if (!response.ok) {
+        throw new Error('Failed to fetch cars');
+      }
+      const data = await response.json();
+      setCars(data);
+      setIsLoading(false);
+    } catch (err) {
+      setError('Failed to load cars. Please try again later.');
+      setIsLoading(false);
+    }
   };
 
-  const handleDelete = (id: number) => {
-    setCars(cars.filter(car => car.id !== id));
+  const handleSubmit = async (carData: Omit<Car, 'id'>) => {
+    try {
+      const method = editingCar ? 'PUT' : 'POST';
+      const url = editingCar ? `/api/cars/${editingCar.id}` : '/api/cars';
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(carData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save car');
+      }
+
+      fetchCars();
+      setIsFormVisible(false);
+      setEditingCar(null);
+    } catch (err) {
+      setError('Failed to save car. Please try again.');
+    }
   };
 
-  const filteredAndSortedCars = cars
-    .filter(car =>
-      car.make.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      car.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      car.description.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (sortOption === 'price-asc') return a.price - b.price;
-      if (sortOption === 'price-desc') return b.price - a.price;
-      if (sortOption === 'year-desc') return b.year - a.year;
-      if (sortOption === 'year-asc') return a.year - b.year;
-      return 0;
-    });
+  const handleDelete = async (id: number) => {
+    if (window.confirm('Are you sure you want to delete this car?')) {
+      try {
+        const response = await fetch(`/api/cars/${id}`, {
+          method: 'DELETE',
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to delete car');
+        }
+
+        fetchCars();
+      } catch (err) {
+        setError('Failed to delete car. Please try again.');
+      }
+    }
+  };
+
+  const handleEdit = (car: Car) => {
+    setEditingCar(car);
+    setIsFormVisible(true);
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <main className={styles.main}>
@@ -80,111 +106,27 @@ export default function Home() {
         </h1>
         <button 
           className={styles.addButton} 
-          onClick={() => setIsFormVisible(!isFormVisible)}
+          onClick={() => {
+            setIsFormVisible(!isFormVisible);
+            setEditingCar(null);
+          }}
         >
           {isFormVisible ? 'Close Form' : 'Add New Car'}
         </button>
       </header>
 
       {isFormVisible && (
-        <section className={styles.carForm}>
-          <h2>Add a New Car</h2>
-          <form onSubmit={handleSubmit}>
-            <div className={styles.formGroup}>
-              <label htmlFor="make">Make</label>
-              <input
-                type="text"
-                id="make"
-                required
-                value={formData.make}
-                onChange={(e) => setFormData({...formData, make: e.target.value})}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="model">Model</label>
-              <input
-                type="text"
-                id="model"
-                required
-                value={formData.model}
-                onChange={(e) => setFormData({...formData, model: e.target.value})}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="year">Year</label>
-              <input
-                type="number"
-                id="year"
-                required
-                value={formData.year}
-                onChange={(e) => setFormData({...formData, year: e.target.value})}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="price">Price</label>
-              <input
-                type="number"
-                id="price"
-                required
-                value={formData.price}
-                onChange={(e) => setFormData({...formData, price: e.target.value})}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="mileage">Mileage</label>
-              <input
-                type="number"
-                id="mileage"
-                required
-                value={formData.mileage}
-                onChange={(e) => setFormData({...formData, mileage: e.target.value})}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="description">Description</label>
-              <textarea
-                id="description"
-                value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
-              ></textarea>
-            </div>
-            <button type="submit" className={styles.submitButton}>Add Car</button>
-          </form>
-        </section>
+        <CarForm 
+          onSubmit={handleSubmit}
+          initialData={editingCar || undefined}
+        />
       )}
 
-      <section className={styles.carList}>
-        <div className={styles.searchFilter}>
-          <input
-            type="text"
-            placeholder="Search cars..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className={styles.searchInput}
-          />
-          <select
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-            className={styles.sortSelect}
-          >
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="year-desc">Newest First</option>
-            <option value="year-asc">Oldest First</option>
-          </select>
-        </div>
-        <div className={styles.carsContainer}>
-          {filteredAndSortedCars.map(car => (
-            <div key={car.id} className={styles.carItem}>
-              <h3>{car.make} {car.model} <span className={styles.year}>({car.year})</span></h3>
-              <p className={styles.price}>${car.price.toLocaleString()}</p>
-              <p className={styles.mileage}>{car.mileage.toLocaleString()} miles</p>
-              <p className={styles.description}>{car.description}</p>
-              <button onClick={() => handleDelete(car.id)} className={styles.deleteButton}>Delete</button>
-            </div>
-          ))}
-        </div>
-      </section>
+      <CarList 
+        cars={cars}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+      />
     </main>
   );
 }
