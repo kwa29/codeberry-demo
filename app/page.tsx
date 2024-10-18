@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styles from './page.module.css';
 import { mockCars } from '../mockData';
 import { Car } from 'lucide-react';
+import { FixedSizeList as List } from 'react-window';
 
 interface Car {
   id: number;
@@ -15,11 +16,51 @@ interface Car {
   description: string;
 }
 
+const CarItem = React.memo(({ car, onDelete }: { car: Car; onDelete: (id: number) => void }) => (
+  <div className={styles.carItem}>
+    <h3>{car.make} {car.model} <span className={styles.year}>({car.year})</span></h3>
+    <p className={styles.price}>${car.price.toLocaleString()}</p>
+    <p className={styles.mileage}>{car.mileage.toLocaleString()} miles</p>
+    <p className={styles.description}>{car.description}</p>
+    <button onClick={() => onDelete(car.id)} className={styles.deleteButton}>Delete</button>
+  </div>
+));
+
+const Pagination = ({ totalCars, carsPerPage, currentPage, onPageChange }: {
+  totalCars: number;
+  carsPerPage: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+}) => {
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(totalCars / carsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <nav className={styles.pagination}>
+      <ul>
+        {pageNumbers.map(number => (
+          <li key={number} className={currentPage === number ? styles.active : ''}>
+            <button onClick={() => onPageChange(number)}>{number}</button>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
 export default function Home() {
-  const [cars, setCars] = useState<Car[]>(mockCars);
+  const [cars, setCars] = useState<Car[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('price-asc');
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 1000000 });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const carsPerPage = 10;
 
   const [formData, setFormData] = useState({
     make: '',
@@ -29,6 +70,23 @@ export default function Home() {
     mileage: '',
     description: ''
   });
+
+  useEffect(() => {
+    const fetchCars = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        // In a real application, this would be an API call
+        const data = await new Promise<Car[]>(resolve => setTimeout(() => resolve(mockCars), 1000));
+        setCars(data);
+      } catch (err) {
+        setError('Failed to fetch cars. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCars();
+  }, []);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -57,19 +115,43 @@ export default function Home() {
     setCars(cars.filter(car => car.id !== id));
   };
 
-  const filteredAndSortedCars = cars
-    .filter(car =>
-      car.make.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      car.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      car.description.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (sortOption === 'price-asc') return a.price - b.price;
-      if (sortOption === 'price-desc') return b.price - a.price;
-      if (sortOption === 'year-desc') return b.year - a.year;
-      if (sortOption === 'year-asc') return a.year - b.year;
-      return 0;
-    });
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSortOption('price-asc');
+    setPriceRange({ min: 0, max: 1000000 });
+    setCurrentPage(1);
+  };
+
+  const filteredAndSortedCars = useMemo(() => {
+    return cars
+      .filter(car =>
+        (car.make.toLowerCase().includes(searchTerm.toLowerCase()) ||
+         car.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
+         car.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        car.price >= priceRange.min &&
+        car.price <= priceRange.max
+      )
+      .sort((a, b) => {
+        if (sortOption === 'price-asc') return a.price - b.price;
+        if (sortOption === 'price-desc') return b.price - a.price;
+        if (sortOption === 'year-desc') return b.year - a.year;
+        if (sortOption === 'year-asc') return a.year - b.year;
+        return 0;
+      });
+  }, [cars, searchTerm, sortOption, priceRange]);
+
+  const indexOfLastCar = currentPage * carsPerPage;
+  const indexOfFirstCar = indexOfLastCar - carsPerPage;
+  const currentCars = filteredAndSortedCars.slice(indexOfFirstCar, indexOfLastCar);
+
+  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
+    const car = currentCars[index];
+    return (
+      <div style={style}>
+        <CarItem car={car} onDelete={handleDelete} />
+      </div>
+    );
+  };
 
   return (
     <main className={styles.main}>
@@ -172,18 +254,47 @@ export default function Home() {
             <option value="year-desc">Newest First</option>
             <option value="year-asc">Oldest First</option>
           </select>
+          <div className={styles.priceFilter}>
+            <input
+              type="number"
+              placeholder="Min Price"
+              value={priceRange.min}
+              onChange={(e) => setPriceRange({ ...priceRange, min: parseInt(e.target.value) || 0 })}
+              className={styles.priceInput}
+            />
+            <input
+              type="number"
+              placeholder="Max Price"
+              value={priceRange.max}
+              onChange={(e) => setPriceRange({ ...priceRange, max: parseInt(e.target.value) || 1000000 })}
+              className={styles.priceInput}
+            />
+          </div>
+          <button onClick={clearFilters} className={styles.clearFiltersButton}>
+            Clear Filters
+          </button>
         </div>
-        <div className={styles.carsContainer}>
-          {filteredAndSortedCars.map(car => (
-            <div key={car.id} className={styles.carItem}>
-              <h3>{car.make} {car.model} <span className={styles.year}>({car.year})</span></h3>
-              <p className={styles.price}>${car.price.toLocaleString()}</p>
-              <p className={styles.mileage}>{car.mileage.toLocaleString()} miles</p>
-              <p className={styles.description}>{car.description}</p>
-              <button onClick={() => handleDelete(car.id)} className={styles.deleteButton}>Delete</button>
-            </div>
-          ))}
-        </div>
+
+        {isLoading && <div className={styles.loading}>Loading cars...</div>}
+        {error && <div className={styles.error}>{error}</div>}
+        {!isLoading && !error && (
+          <>
+            <List
+              height={600}
+              itemCount={currentCars.length}
+              itemSize={200}
+              width="100%"
+            >
+              {Row}
+            </List>
+            <Pagination
+              totalCars={filteredAndSortedCars.length}
+              carsPerPage={carsPerPage}
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+            />
+          </>
+        )}
       </section>
     </main>
   );
