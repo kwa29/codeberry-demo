@@ -15,8 +15,14 @@ interface Car {
   description: string;
 }
 
+const europeanBrands = ['BMW', 'Mercedes', 'Audi', 'Volkswagen', 'Volvo', 'Peugeot', 'Renault', 'Fiat', 'Alfa Romeo'];
+
+function isEuropeanCar(make: string): boolean {
+  return europeanBrands.includes(make);
+}
+
 export default function Home() {
-  const [cars, setCars] = useState<Car[]>(mockCars);
+  const [cars, setCars] = useState<Car[]>(mockCars.filter(car => car.make !== 'Ford'));
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('price-asc');
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -32,6 +38,10 @@ export default function Home() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    if (formData.make.toLowerCase() === 'ford') {
+      alert("Ford models are not allowed.");
+      return;
+    }
     const newCar: Car = {
       id: Math.max(...cars.map(car => car.id)) + 1,
       make: formData.make,
@@ -54,14 +64,22 @@ export default function Home() {
   };
 
   const handleDelete = (id: number) => {
-    setCars(cars.filter(car => car.id !== id));
+    setCars(cars.filter(car => car.id !== id && car.make !== 'Ford'));
   };
 
   const filteredAndSortedCars = cars
+    .sort((a, b) => {
+      const isEuropeanA = isEuropeanCar(a.make);
+      const isEuropeanB = isEuropeanCar(b.make);
+      if (isEuropeanA && !isEuropeanB) return -1;
+      if (!isEuropeanA && isEuropeanB) return 1;
+      return 0;
+    })
     .filter(car =>
-      car.make.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      car.make !== 'Ford' &&
+      (car.make.toLowerCase().includes(searchTerm.toLowerCase()) ||
       car.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      car.description.toLowerCase().includes(searchTerm.toLowerCase())
+      car.description.toLowerCase().includes(searchTerm.toLowerCase()))
     )
     .sort((a, b) => {
       if (sortOption === 'price-asc') return a.price - b.price;
@@ -180,6 +198,7 @@ export default function Home() {
               <p className={styles.price}>${car.price.toLocaleString()}</p>
               <p className={styles.mileage}>{car.mileage.toLocaleString()} miles</p>
               <p className={styles.description}>{car.description}</p>
+              {isEuropeanCar(car.make) && <span className={styles.europeanLabel}>European</span>}
               <button onClick={() => handleDelete(car.id)} className={styles.deleteButton}>Delete</button>
             </div>
           ))}
